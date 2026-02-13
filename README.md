@@ -6,7 +6,7 @@ Modelagem inicial do banco de dados da aplicação Rede de Trocas de Conheciment
 
 A proposta visa atender aos requisitos funcionais do projeto, priorizando simplicidade, normalização e possibilidade de evolução futura.
 
-![modelo lógico do banco de dados](C:\Users\marcos.souza\backend-avanti\projeto-bootcamp\public\img\modelo_banco_dados.png)
+![modelo lógico do banco de dados](./public/img/image.png)
 
 ### Visão Geral do Modelo
 **pessoas** -> Responsável por armazenar os dados dos usuários da plataforma, incluindo informações pessoais e credenciais de acesso.
