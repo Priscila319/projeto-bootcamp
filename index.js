@@ -42,6 +42,20 @@ app.post('/categorias', async (req, res) => {
     }
 });
 
+app.put('/categorias/:id', async (req, res) => {
+    const { id } = req.params;
+    const { cat_nome } = req.body;
+    try {
+        const categoriaAtualizada = await prisma.categorias.update({
+            where: { cat_id: parseInt(id) },
+            data: { cat_nome }
+        });
+        return res.status(200).json(categoriaAtualizada);
+    } catch (error) {
+        return res.status(500).json({ erro: "Erro ao atualizar categoria" });
+    }
+});
+
 app.delete("/categorias/:id", async (req, res) => {
     const {id} = req.params;// nesta linha busca-se parametros dentro do 'request' que tenha o nome 'id'.
     try {
