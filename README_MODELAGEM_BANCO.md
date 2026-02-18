@@ -26,43 +26,44 @@ A proposta visa atender aos requisitos funcionais do projeto, priorizando simpli
 
 ```sql:
 CREATE TABLE pessoas (
-    pes_id INT PRIMARY KEY AUTO_INCREMENT,
+    pes_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     pes_nome VARCHAR(100) NOT NULL,
-    pes_email VARCHAR(150) NOT NULL,
+    pes_email VARCHAR(150) NOT NULL UNIQUE,
     pes_telefone VARCHAR(20) NOT NULL,
     pes_descricao VARCHAR(255) NOT NULL,
-    pes_criado_em DATETIME NOT NULL,
-    pes_login VARCHAR(50) NOT NULL,
-    pes_senha VARCHAR(255) NOT NULL,
-    UNIQUE (pes_email),
-    UNIQUE (pes_login)
+    pes_criado_em TIMESTAMP NOT NULL,
+    pes_login VARCHAR(50) NOT NULL UNIQUE,
+    pes_senha VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE categorias (
-    cat_id INT PRIMARY KEY AUTO_INCREMENT,
+    cat_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     cat_nome VARCHAR(100) NOT NULL UNIQUE
 );
 
 CREATE TABLE niveis (
-    niv_id INT PRIMARY KEY AUTO_INCREMENT,
+    niv_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     niv_nome VARCHAR(50) NOT NULL UNIQUE
 );
 
 CREATE TABLE conhecimentos (
-    con_id INT PRIMARY KEY AUTO_INCREMENT,
+    con_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     con_titulo VARCHAR(150) NOT NULL,
     con_categoria_id INT NOT NULL,
     con_nivel_id INT NOT NULL,
     con_pessoa_id INT NOT NULL,
     con_descricao VARCHAR(255) NOT NULL,
     con_ativo BOOLEAN NOT NULL,
-    con_criado_em DATETIME NOT NULL,
+    con_criado_em TIMESTAMP NOT NULL,
+
     CONSTRAINT fk_con_categoria
         FOREIGN KEY (con_categoria_id)
         REFERENCES categorias (cat_id),
+
     CONSTRAINT fk_con_nivel
         FOREIGN KEY (con_nivel_id)
         REFERENCES niveis (niv_id),
+
     CONSTRAINT fk_con_pessoa
         FOREIGN KEY (con_pessoa_id)
         REFERENCES pessoas (pes_id)
