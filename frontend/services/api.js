@@ -1,4 +1,7 @@
-export async function postJSON(url, data) {
+const API_BASE_URL = process.env.API_BASE_URL;
+
+export async function postJSON(endpoint, data) {
+    const url = `${API_BASE_URL}/${endpoint}`;
     const resposta = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

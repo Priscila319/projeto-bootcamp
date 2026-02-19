@@ -15,7 +15,7 @@ CREATE TABLE "conhecimentos" (
     "con_pessoa_id" INTEGER NOT NULL,
     "con_descricao" VARCHAR(255) NOT NULL,
     "con_ativo" BOOLEAN NOT NULL,
-    "con_criado_em" TIMESTAMP(6) NOT NULL,
+    "con_criado_em" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "conhecimentos_pkey" PRIMARY KEY ("con_id")
 );
@@ -35,7 +35,7 @@ CREATE TABLE "pessoas" (
     "pes_email" VARCHAR(150) NOT NULL,
     "pes_telefone" VARCHAR(20) NOT NULL,
     "pes_descricao" VARCHAR(255) NOT NULL,
-    "pes_criado_em" TIMESTAMP(6) NOT NULL,
+    "pes_criado_em" TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "pes_login" VARCHAR(50) NOT NULL,
     "pes_senha" VARCHAR(255) NOT NULL,
 
