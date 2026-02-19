@@ -1,11 +1,19 @@
 import express from 'express';
+import pessoasRoutes from './routes/pessoas.routes.js';
+
 const app = express();
-const port = 3000;
+app.use(express.json()); // Middleware para parsear JSON
+
+// Rotas
+app.use('/pessoas', pessoasRoutes); // Rota para pessoas
 
 app.get('/', (req, res) => {
-    res.send('Olá mundo!');
+    res.send('API funcionando!');
 });
 
-app.listen(port, () => {
-    console.log(`Servidor rodando na porta ${port}`);
+
+// porta do servidor
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta http://localhost:${port}`);
 });
