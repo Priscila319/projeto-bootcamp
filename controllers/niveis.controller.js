@@ -1,5 +1,5 @@
-import { prisma } from "../lib/prisma";
-import { validarIdInteiro, handlePrismaError } from "../utils/controllerHelpers";
+import { prisma } from "../lib/prisma.js";
+import { validarIdInteiro, handlePrismaError } from "../utils/controllerHelpers.js";
 
 const nomeModelo = "niveis";
 const idModelo = "niv_id";

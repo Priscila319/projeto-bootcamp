@@ -25,3 +25,5 @@ function handlePrismaError(error, res) {
   console.error(error);
   return res.status(500).json({ error: "Erro interno do servidor" });
 }
+
+export { validarIdInteiro, handlePrismaError };

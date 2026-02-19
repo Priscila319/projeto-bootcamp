@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as controller from "../controllers/niveis.controller.js";
 
-const router = Rotuter();
+const router = Router();
 
 // CRUD
 
