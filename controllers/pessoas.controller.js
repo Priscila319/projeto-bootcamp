@@ -1,38 +1,11 @@
 import { prisma } from "../lib/prisma";
+import { validarIdInteiro, handlePrismaError } from "../utils/controllerHelpers";
 import bcrypt from "bcrypt";
 
 const nomeModelo = "pessoas";
 const idModelo = "pes_id";
 
 const db = prisma[nomeModelo];
-
-// validar se o id for int
-function validarId(id) {
-  const n = Number(id);
-  if (!Number.isInteger(n)) return null;
-  return n;
-}
-
-// lidar com error do prisma (falta colocar mais erros)
-function handlePrismaError(error, res) {
-  if (error.code === "P2025") {
-    return res.status(404).json({ error: "Registro não encontrado" });
-  }
-  else if (error.code === "P2002") {
-    return res.status(400).json({ error: "Registro já existe" });
-  }
-  else if (error.code === "P2003") {
-    return res.status(400).json({ error: "Chave estrangeira inválida" });
-  }
-  else if (error.code === "P2004") {
-    return res.status(400).json({ error: "Violação de restrição de banco de dados" });
-  }
-  else if (error.code === "P2005") {
-    return res.status(400).json({ error: "Valor inválido para o campo" });
-  }
-  console.error(error);
-  return res.status(500).json({ error: "Erro interno do servidor" });
-}
 
 export async function listar(req, res) {
   try {
@@ -45,7 +18,7 @@ export async function listar(req, res) {
 
 export async function getPorId(req, res) {
   try {
-    const id = validarId(req.params.id);
+    const id = validarIdInteiro(req.params.id);
     if (id === null) return res.status(400).json({ error: "ID inválido" });
 
     const pessoa = await db.findUnique({
@@ -85,7 +58,7 @@ export async function criar(req, res) {
 
 export async function atualizar(req, res) {
   try {
-    const id = validarId(req.params.id);
+    const id = validarIdInteiro(req.params.id);
     if (id === null) return res.status(400).json({ error: "ID inválido" });
 
     const { nome, email, telefone, descricao, login, senha } = req.body;
@@ -122,7 +95,7 @@ export async function atualizar(req, res) {
 
 export async function deletar(req, res) {
   try {
-    const id = validarId(req.params.id);
+    const id = validarIdInteiro(req.params.id);
     if (id === null) return res.status(400).json({ error: "ID inválido" });
 
     // garantir que existe a pessoa antes de tentar deletar
