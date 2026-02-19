@@ -1,8 +1,47 @@
-generator pessoa {
-  provider = "prisma-pessoa"
+generator client {
+  provider = "prisma-client"
   output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model categorias {
+  cat_id        Int             @id @default(autoincrement())
+  cat_nome      String          @unique @db.VarChar(100)
+  conhecimentos conhecimentos[]
+}
+
+model conhecimentos {
+  con_id           Int        @id @default(autoincrement())
+  con_titulo       String     @db.VarChar(150)
+  con_categoria_id Int
+  con_nivel_id     Int
+  con_pessoa_id    Int
+  con_descricao    String     @db.VarChar(255)
+  con_ativo        Boolean
+  con_criado_em    DateTime   @db.Timestamp(6)
+  categorias       categorias @relation(fields: [con_categoria_id], references: [cat_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_con_categoria")
+  niveis           niveis     @relation(fields: [con_nivel_id], references: [niv_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_con_nivel")
+  pessoas          pessoas    @relation(fields: [con_pessoa_id], references: [pes_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_con_pessoa")
+}
+
+model niveis {
+  niv_id        Int             @id @default(autoincrement())
+  niv_nome      String          @unique @db.VarChar(50)
+  conhecimentos conhecimentos[]
+}
+
+model pessoas {
+  pes_id        Int             @id @default(autoincrement())
+  pes_nome      String          @db.VarChar(100)
+  pes_email     String          @unique @db.VarChar(150)
+  pes_telefone  String          @db.VarChar(20)
+  pes_descricao String          @db.VarChar(255)
+  pes_criado_em DateTime        @db.Timestamp(6)
+  pes_login     String          @unique @db.VarChar(50)
+  pes_senha     String          @db.VarChar(255)
+  conhecimentos conhecimentos[]
 }
