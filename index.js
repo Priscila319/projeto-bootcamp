@@ -1,14 +1,11 @@
-import express, { request as req, response as res, response } from "express";
-import prisma from ''
-
+import express from 'express';
 const app = express();
-app.use(express.json());
+const port = 3000;
 
-app.get('/pessoas', async (req, res) => {
-    try {
-        // const pessoas = 
-    } catch (error) {
-        console.log(error);
-        return response.status(500).send();
-    }
+app.get('/', (req, res) => {
+    res.send('Olá mundo!');
+});
+
+app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
 });
