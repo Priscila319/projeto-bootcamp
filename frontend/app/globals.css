@@ -54,3 +54,39 @@ nav {
   flex-direction: column;
   gap: 10px;  
 }
+
+/*
+===================================================
+ variáveis do sistema
+===================================================
+*/
+:root {
+	--bg: #0b0f17;
+		--surface: #111827;
+		--surface-2: #0f172a;
+		--text: #e5e7eb;
+		--muted: #9ca3af;
+	
+		--primary: #2563eb;
+		--primary-hover: #1d4ed8;
+	
+		--border: rgba(255, 255, 255, 0.10);
+		--danger: #ef4444;
+
+		/* layout*/
+		--radius: 12px;
+		--shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+		/* espacamentos */
+		--space-1: 6px;
+		--space-2: 10px;
+		--space-3: 14px;
+		--space-4: 18px;
+		--space-5: 24px;
+	
+		/* tipografia */
+		--font-size: 16px;
+		--line-height: 1.4;
+	
+		--focus: 0 0 0 3px rgba(37, 99, 235, 0.35);
+}
