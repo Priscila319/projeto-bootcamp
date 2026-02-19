@@ -22,7 +22,7 @@ model conhecimentos {
   con_pessoa_id    Int
   con_descricao    String     @db.VarChar(255)
   con_ativo        Boolean
-  con_criado_em    DateTime   @db.Timestamp(6)
+  con_criado_em    DateTime   @default(now()) @db.Timestamp(6)
   categorias       categorias @relation(fields: [con_categoria_id], references: [cat_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_con_categoria")
   niveis           niveis     @relation(fields: [con_nivel_id], references: [niv_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_con_nivel")
   pessoas          pessoas    @relation(fields: [con_pessoa_id], references: [pes_id], onDelete: NoAction, onUpdate: NoAction, map: "fk_con_pessoa")
@@ -40,7 +40,7 @@ model pessoas {
   pes_email     String          @unique @db.VarChar(150)
   pes_telefone  String          @db.VarChar(20)
   pes_descricao String          @db.VarChar(255)
-  pes_criado_em DateTime        @db.Timestamp(6)
+  pes_criado_em DateTime        @default(now()) @db.Timestamp(6)
   pes_login     String          @unique @db.VarChar(50)
   pes_senha     String          @db.VarChar(255)
   conhecimentos conhecimentos[]

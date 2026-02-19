@@ -9,6 +9,7 @@ A proposta visa atender aos requisitos funcionais do projeto, priorizando simpli
 ![modelo lógico do banco de dados](public/img/modelo_banco_dados.png)
 
 ### Visão Geral do Modelo
+
 **pessoas** -> Responsável por armazenar os dados dos usuários da plataforma, incluindo informações pessoais e credenciais de acesso.
 
 **conhecimentos** -> Entidade central do sistema, representa as ofertas de conhecimento disponibilizadas por uma pessoa, contendo título, descrição, categoria e nível.
@@ -18,9 +19,10 @@ A proposta visa atender aos requisitos funcionais do projeto, priorizando simpli
 **niveis** -> Define o grau de complexidade do conhecimento oferido (ex.: iniciante, intermediário, avançado)
 
 ### Relacionamentos
-* Uma pessoa pode cadastrar zero ou mais conhecimentos.
-* Cada conhecimento pertence a uma única pessoa, uma categoria a um nível.
-* Categorias e níveis podem estár associados a vários conhecimentos.
+
+- Uma pessoa pode cadastrar zero ou mais conhecimentos.
+- Cada conhecimento pertence a uma única pessoa, uma categoria a um nível.
+- Categorias e níveis podem estár associados a vários conhecimentos.
 
 ### Script SQL
 
@@ -31,7 +33,7 @@ CREATE TABLE pessoas (
     pes_email VARCHAR(150) NOT NULL UNIQUE,
     pes_telefone VARCHAR(20) NOT NULL,
     pes_descricao VARCHAR(255) NOT NULL,
-    pes_criado_em TIMESTAMP NOT NULL,
+    pes_criado_em TIMESTAMP NOT NULL DEFAULT NOW(),
     pes_login VARCHAR(50) NOT NULL UNIQUE,
     pes_senha VARCHAR(255) NOT NULL
 );
@@ -54,7 +56,7 @@ CREATE TABLE conhecimentos (
     con_pessoa_id INT NOT NULL,
     con_descricao VARCHAR(255) NOT NULL,
     con_ativo BOOLEAN NOT NULL,
-    con_criado_em TIMESTAMP NOT NULL,
+    con_criado_em TIMESTAMP NOT NULL DEFAULT NOW(),
 
     CONSTRAINT fk_con_categoria
         FOREIGN KEY (con_categoria_id)
@@ -68,6 +70,7 @@ CREATE TABLE conhecimentos (
         FOREIGN KEY (con_pessoa_id)
         REFERENCES pessoas (pes_id)
 );
+
 
 ```
 
