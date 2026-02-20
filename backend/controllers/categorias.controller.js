@@ -36,12 +36,12 @@ export async function getPorId(req, res) {
 export async function criar(req, res) {
   try {
     const {
-      cat_nome
+      nome
     } = req.body;
 
     const categoria = await db.create({
       data: {
-        cat_nome
+        cat_nome: nome
       },
     });
 
@@ -57,13 +57,13 @@ export async function atualizar(req, res) {
     if (id === null) return res.status(400).json({ error: "ID inválido" });
 
     const {
-      cat_nome
+      nome
     } = req.body;
 
     const categoria = await db.update({
       where: { [idModelo]: id },
       data: {
-        cat_nome
+        cat_nome: nome
       },
     });
 

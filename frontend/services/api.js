@@ -23,3 +23,16 @@ export async function postJSON(endpoint, data) {
 
     return body;
 }
+
+export async function getJSON(endpoint) {
+    const url = `${API_BASE_URL}/${endpoint}`;
+    const resp = await fetch(url);
+
+    let body = null;
+    try { body = await resp.json(); } catch { }
+
+    if (!resp.ok) {
+        throw new Error(body?.mensagem || "Erro ao buscar dados.");
+    }
+    return body;
+}

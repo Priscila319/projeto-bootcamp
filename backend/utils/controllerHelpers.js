@@ -1,7 +1,8 @@
 // validar se o id for int
 function validarIdInteiro(id) {
+  if (id === null || id === undefined || String(id).trim() === "") return null;
   const n = Number(id);
-  if (!Number.isInteger(n)) return null;
+  if (!Number.isInteger(n) || n <= 0) return null;
   return n;
 }
 
