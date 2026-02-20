@@ -3,8 +3,12 @@ import { useForm } from "react-hook-form";
 import { FormCard } from "../../../components/cadastro/FormCard";
 import { formatarTelefone } from "../../../utils/formatters";
 import { postJSON } from "../../../services/api";
+import { useState } from "react";
 export default function CadastroPessoaPage() {
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+    const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();
+    const [sucesso, setSucesso] = useState(false);
+    const [erroApi, setErroApi] = useState(null);
+
     const telefoneReg = register("telefone", {
         required: "Telefone obrigatório",
         validate: (v) => {
@@ -15,7 +19,19 @@ export default function CadastroPessoaPage() {
     });
 
     const onSubmit = (data) => {
-        postJSON("pessoas", data);
+        try {
+            postJSON("pessoas", data);
+
+            setSucesso(true);
+            setErroApi(null);
+
+            reset(); // limpa os campos do form
+
+            setTimeout(() => setSucesso(false), 3000);
+        } catch (error) {
+            setErroApi(error.message || "Erro ao cadastrar pessoa");
+            setSucesso(false);
+        }
     };
 
     return (
@@ -102,6 +118,18 @@ export default function CadastroPessoaPage() {
                         <span className="error-text">{errors.descricao.message}</span>
                     )}
                 </div>
+
+                {sucesso && (
+                    <div className="alert alert-success">
+                        Cadastro realizado com sucesso!
+                    </div>
+                )}
+
+                {erroApi && (
+                    <div className="alert alert-error">
+                        {erroApi}
+                    </div>
+                )}
 
                 <div className="form-actions">
                     <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
