@@ -41,8 +41,14 @@ export async function criar(req, res) {
       nivelId,
       pessoaId,
       descricao,
-      ativo = true,
+      ativo,
     } = req.body;
+
+    if (ativo !== undefined) {
+      ativo = Boolean(ativo);
+    } else {
+      ativo = true;
+    }
 
     const catId = validarIdInteiro(categoriaId);
     const nivId = validarIdInteiro(nivelId);

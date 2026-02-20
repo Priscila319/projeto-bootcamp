@@ -36,3 +36,20 @@ export async function getJSON(endpoint) {
     }
     return body;
 }
+
+export async function putJSON(endpoint, data) {
+    const url = `${API_BASE_URL}/${endpoint}`;
+    const resp = await fetch(url, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    });
+
+    let body = null;
+    try { body = await resp.json(); } catch { }
+
+    if (!resp.ok) {
+        throw new Error(body?.error || body?.mensagem || "Erro ao atualizar.");
+    }
+    return body;
+}
