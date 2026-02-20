@@ -2,11 +2,21 @@
 import { useForm } from "react-hook-form";
 import { FormCard } from "../../../components/cadastro/FormCard";
 import { formatarTelefone } from "../../../utils/formatters";
-
+import { postJSON } from "../../../services/api";
 export default function CadastroPessoaPage() {
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+    const telefoneReg = register("telefone", {
+        required: "Telefone obrigatório",
+        validate: (v) => {
+            const digits = (v || "").replace(/\D/g, "");
+            if (digits.length === 10 || digits.length === 11) return true;
+            return "Telefone incompleto";
+        },
+    });
 
-    const onSubmit = (data) => console.log(data);
+    const onSubmit = (data) => {
+        postJSON("pessoas", data);
+    };
 
     return (
         <FormCard title={"Cadastro de Pessoa"}>
@@ -42,15 +52,12 @@ export default function CadastroPessoaPage() {
                         className={`input ${errors.telefone ? "input-error" : ""}`}
                         type="tel"
                         inputMode="numeric"
-                        placeholder="(46) 91234-5678"
-
-                        {...register("telefone", {
-                            required: "Telefone obrigatório",
-                            minLength: { value: 14, message: "Telefone incompleto" }
-                        })}
-
+                        placeholder="Ex: (99) 99999-9999"
+                        {...telefoneReg}
                         onChange={(e) => {
-                            e.target.value = formatarTelefone(e.target.value);
+                            const masked = formatarTelefone(e.target.value);
+                            e.target.value = masked;
+                            telefoneReg.onChange(e);
                         }}
                     />
 
@@ -63,7 +70,7 @@ export default function CadastroPessoaPage() {
                     <label className="label">Login</label>
                     <input
                         className={`input ${errors.login ? "input-error" : ""}`}
-                        placeholder="Seu login"
+                        placeholder="Crie um login único"
                         {...register("login", { required: "Login é obrigatório", maxLength: { value: 50, message: "Máx. 50 caracteres" } })}
                     />
                     {errors.login && (
@@ -76,7 +83,7 @@ export default function CadastroPessoaPage() {
                     <input
                         className={`input ${errors.senha ? "input-error" : ""}`}
                         type="password"
-                        placeholder="Sua senha"
+                        placeholder="Crie uma senha segura"
                         {...register("senha", { required: "Senha é obrigatória", minLength: { value: 6, message: "Mín. 6 caracteres" } })}
                     />
                     {errors.senha && (

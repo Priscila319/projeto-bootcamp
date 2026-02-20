@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import pessoasRoutes from './routes/pessoas.routes.js';
 import niveisRoutes from './routes/niveis.routes.js';
 import categoriasRoutes from './routes/categorias.routes.js';
@@ -6,6 +7,17 @@ import conhecimentosRoutes from './routes/conhecimentos.routes.js';
 
 const app = express();
 app.use(express.json()); // Middleware para parsear JSON
+
+// fix: permitir requisições do frontend
+app.use(cors({
+    origin: [
+        process.env.FRONTEND_URL_LOCALHOST,
+        process.env.FRONTEND_URL,
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: false,
+}));
 
 // Rotas
 app.use('/pessoas', pessoasRoutes); // Rota para pessoas
