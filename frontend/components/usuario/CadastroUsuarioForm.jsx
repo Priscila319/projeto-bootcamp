@@ -1,23 +1,18 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FormCard } from "../../components/cadastro/FormCard";
-import { getJSON, postJSON, putJSON } from "@/services/api";
+import { FormCard } from "../cadastro/FormCard";
+import { postJSON } from "../../services/api";
 import { formatarTelefone } from "../../utils/formatters";
 
 
-export default function CadastroPessoaForm({ pessoaId }) {
-  const isEdit = Boolean(pessoaId);
+export default function CadastroUsuarioForm() {
 
-  const { register, handleSubmit, reset, setValue, formState: { errors, isSubmitting } } =
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } =
     useForm();
 
   const [erroApi, setErroApi] = useState(null);
   const [sucesso, setSucesso] = useState(false);
-
-  const [pessoas, setPessoas] = useState([]);
-
-  const [loadingListas, setLoadingListas] = useState(true);
 
   const telefoneReg = register("telefone", {
     required: "Telefone obrigatório",
@@ -28,64 +23,14 @@ export default function CadastroPessoaForm({ pessoaId }) {
     },
   });
 
-  useEffect(() => {
-    let alive = true;
-
-    async function carregar() {
-      try {
-        setLoadingListas(true);
-        setErroApi(null);
-
-        const [p] = await Promise.all([
-          getJSON("pessoas"),
-        ]);
-
-        if (!alive) return;
-        setPessoas(p);
-
-        if (isEdit) {
-          const k = await getJSON(`pessoas/${pessoaId}`);
-          if (!alive) return;
-
-          reset({
-            pessoaId: k.pes_id,
-            nome: k.pes_nome,
-            email: k.pes_email,
-            telefone: k.pes_telefone,
-            descricao: k.pes_descricao,
-            login: k.pes_login,
-            senha: "",
-          });
-        }
-      } catch (e) {
-        if (!alive) return;
-        setErroApi(e.message || "Erro ao carregar");
-      } finally {
-        if (!alive) return;
-        setLoadingListas(false);
-      }
-    }
-
-    carregar();
-    return () => { alive = false; };
-  }, [isEdit, pessoaId, reset]);
-
   const onSubmit = async (data) => {
     try {
       setErroApi(null);
 
       const payload = { ...data };
-      if (isEdit && (!payload.senha || payload.senha.trim() === "")) {
-        delete payload.senha;
-      }
 
-      if (isEdit) {
-        await putJSON(`pessoas/${pessoaId}`, payload);
-      } else {
-        await postJSON("pessoas", payload);
-        reset({ ativo: true });
-      }
-
+      await postJSON("pessoas", payload);
+      reset({ ativo: true });
       setSucesso(true);
       setTimeout(() => setSucesso(false), 2000);
     } catch (e) {
@@ -95,8 +40,8 @@ export default function CadastroPessoaForm({ pessoaId }) {
 
   return (
     <FormCard
-      title={isEdit ? "Editar Pessoa" : "Cadastro de Pessoa"}
-      backHref="/pessoas"
+      title={"Cadastro de Usuário"}
+      backHref="/login"
     >
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <div className="field">
@@ -161,8 +106,8 @@ export default function CadastroPessoaForm({ pessoaId }) {
           <input
             className={`input ${errors.senha ? "input-error" : ""}`}
             type="password"
-            placeholder={isEdit ? "Deixe em branco para manter a senha atual" : "Crie uma senha"}
-            {...register("senha", { required: isEdit ? false : "Senha é obrigatória", minLength: { value: 6, message: "Mín. 6 caracteres" } })}
+            placeholder="Crie uma senha"
+            {...register("senha", { required: "Senha é obrigatória", minLength: { value: 6, message: "Mín. 6 caracteres" } })}
           />
           {errors.senha && (
             <span className="error-text">{errors.senha.message}</span>
@@ -182,11 +127,11 @@ export default function CadastroPessoaForm({ pessoaId }) {
         </div>
 
         <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
-          {isEdit ? "Atualizar" : "Enviar"}
+          Cadastrar
         </button>
         {sucesso && (
           <div className="alert alert-success">
-            {isEdit ? "Atualizado com sucesso!" : "Cadastro realizado com sucesso!"}
+            Cadastro realizado com sucesso!
           </div>
         )}
         {erroApi && <div className="alert alert-error">{erroApi}</div>}

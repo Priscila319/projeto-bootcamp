@@ -24,7 +24,7 @@ app.use(cookieParser()); // Middleware para parsear cookies
 
 
 // Rotas
-app.use('/pessoas', autenticar, pessoasRoutes); // Rota para pessoas
+app.use('/pessoas', pessoasRoutes); // Rota para pessoas
 app.use('/niveis', autenticar, niveisRoutes); // Rota para niveis
 app.use('/categorias', autenticar, categoriasRoutes); // Rota para categorias
 app.use('/conhecimentos', autenticar, conhecimentosRoutes); // Rota para conhecimentos

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { FormCard } from "../../components/cadastro/FormCard";
 import { postJSON } from "../../services/api";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -41,6 +42,10 @@ export default function LoginPage() {
         </div>
         <div className="form-actions">
           <button className="btn btn-primary" type="submit">Entrar</button>
+        </div>
+        <div className="subtitle">
+          <span>Não tem uma conta? </span>
+          <Link href="login/cadastro" className="link">Cadastre-se</Link>
         </div>
       </form>
     </FormCard>

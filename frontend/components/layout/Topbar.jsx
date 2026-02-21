@@ -1,11 +1,11 @@
 "use client";
-import { Router } from "next/router";
+import { useRouter } from "next/navigation";
 import { postJSON } from "../../services/api";
 
 import Link from "next/link";
 
 export default function Topbar() {
-  const router = Router();
+  const router = useRouter();
   const handleLogout = async () => {
     try {
       await postJSON("auth/logout");
@@ -24,8 +24,8 @@ export default function Topbar() {
           + Conhecimento
         </Link>
       </div>
-      <div className="topbar-handle">
-        <button className="btn btn-logout" onClick={handleLogout}>Sair</button>
+      <div className="topbar-left">
+        <Link className="btn btn-logout" href="#" onClick={handleLogout}>Sair</Link>
       </div>
     </header>
   );

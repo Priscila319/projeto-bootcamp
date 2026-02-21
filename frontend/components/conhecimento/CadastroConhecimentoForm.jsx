@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormCard } from "../../components/cadastro/FormCard";
 import { ToggleSwitch } from "../../components/cadastro/ToggleSwitch";
-import { getJSON, postJSON, putJSON } from "@/services/api";
+import { getJSON, postJSON, putJSON } from "../../services/api";
 
 export default function CadastroConhecimentoForm({ conhecimentoId }) {
   const isEdit = Boolean(conhecimentoId);

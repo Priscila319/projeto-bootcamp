@@ -1,6 +1,6 @@
 "use client";
 
-import CadastroPessoaForm from "../../../../components/conhecimento/CadastroPessoaForm";
+import CadastroPessoaForm from "../../../../components/pessoa/CadastroPessoaForm";
 import { useParams } from "next/navigation";
 
 export default function EditarPessoaPage() {
