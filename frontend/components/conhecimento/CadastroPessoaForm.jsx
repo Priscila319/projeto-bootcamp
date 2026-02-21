@@ -191,6 +191,6 @@ export default function CadastroPessoaForm({ pessoaId }) {
         )}
         {erroApi && <div className="alert alert-error">{erroApi}</div>}
       </form>
-    </FormCard>
+    </FormCard >
   );
 }

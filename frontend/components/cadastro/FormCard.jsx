@@ -10,7 +10,6 @@ export function FormCard({ title, backHref, backLabel = "Voltar", children }) {
                         <div>
                             <h1 className="form-title">{title}</h1>
                         </div>
-
                         {backHref ? (
                             <Link className="btn btn-ghost" href={backHref}>
                                 {backLabel}
