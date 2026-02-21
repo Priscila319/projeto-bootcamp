@@ -53,3 +53,16 @@ export async function putJSON(endpoint, data) {
     }
     return body;
 }
+
+export async function deleteJSON(endpoint) {
+    const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${endpoint}`;
+    const resp = await fetch(url, { method: "DELETE" });
+
+    let body = null;
+    try { body = await resp.json(); } catch { }
+
+    if (!resp.ok) {
+        throw new Error(body?.error || body?.mensagem || "Erro ao apagar.");
+    }
+    return body;
+}

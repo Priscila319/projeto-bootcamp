@@ -8,7 +8,13 @@ const db = prisma[nomeModelo];
 
 export async function listar(req, res) {
   try {
-    const conhecimentos = await db.findMany();
+    const conhecimentos = await db.findMany({
+      include: {
+        pessoas: { select: { pes_id: true, pes_nome: true } },
+        categorias: { select: { cat_id: true, cat_nome: true } },
+        niveis: { select: { niv_id: true, niv_nome: true } },
+      },
+    });
     return res.status(200).json(conhecimentos);
   } catch (error) {
     return handlePrismaError(error, res);

@@ -87,7 +87,10 @@ export default function CadastroConhecimentoForm({ conhecimentoId }) {
   };
 
   return (
-    <FormCard title={isEdit ? "Editar Conhecimento" : "Cadastro de Conhecimento"}>
+    <FormCard
+      title={isEdit ? "Editar Conhecimento" : "Cadastro de Conhecimento"}
+      backHref="/conhecimentos"
+    >
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
 
         {isEdit && (
@@ -166,7 +169,7 @@ export default function CadastroConhecimentoForm({ conhecimentoId }) {
             className={`textarea ${errors.descricao ? "textarea-error" : ""}`}
             placeholder="Descrição do conhecimento"
             disabled={!canEditFields}
-            {...register("descricao", { required: "Descrição é obrigatória", maxLength: { value: 500, message: "Máx. 500 caracteres" } })}
+            {...register("descricao", { required: "Descrição é obrigatória", maxLength: { value: 250, message: "Máx. 250 caracteres" } })}
           />
           {errors.descricao && <span className="error-text">{errors.descricao.message}</span>}
         </div>
