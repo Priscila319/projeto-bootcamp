@@ -1,17 +1,25 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { FormCard } from "../../components/cadastro/FormCard";
+import { postJSON } from "../../services/api";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const router = useRouter();
 
-  const onSubmit = (data) => {
-    // Lógica de autenticação aqui
-    console.log("Login data:", data);
+  const onSubmit = async (data) => {
+    try {
+      await postJSON("auth/login", data);
+      router.replace("/dashboard");
+    } catch (error) {
+      alert(error.message || "Erro ao autenticar");
+    }
   };
+
   return (
     <FormCard title={"Autenticação"}>
-      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="field">
           <label className="label">Login</label>
           <input
@@ -19,9 +27,7 @@ export default function LoginPage() {
             placeholder="Digite seu login"
             {...register("login", { required: "Login é obrigatório" })}
           />
-          {errors.login && (
-            <span className="error-text">{errors.login.message}</span>
-          )}
+          {errors.login && <span className="error-text">{errors.login.message}</span>}
         </div>
         <div className="field">
           <label className="label">Senha</label>
@@ -31,21 +37,10 @@ export default function LoginPage() {
             placeholder="Digite sua senha"
             {...register("senha", { required: "Senha é obrigatória" })}
           />
-
-          {errors.senha && (
-            <span className="error-text">{errors.senha.message}</span>
-          )}
+          {errors.senha && <span className="error-text">{errors.senha.message}</span>}
         </div>
         <div className="form-actions">
-          <button className="btn btn-primary" type="submit">
-            Entrar
-          </button>
-        </div>
-
-        <div className="field">
-          <p className="subtitle">
-            Não tem uma conta? <a href="/login/cadastro" className="link">Cadastre-se</a>
-          </p>
+          <button className="btn btn-primary" type="submit">Entrar</button>
         </div>
       </form>
     </FormCard>

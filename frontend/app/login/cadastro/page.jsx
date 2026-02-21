@@ -24,7 +24,7 @@ export default function CadastroPessoaPage() {
 
     const onSubmit = async (data) => {
         try {
-            postJSON("pessoas", data);
+            await postJSON("pessoas", data);
 
             setSucesso(true);
             setErroApi(null);

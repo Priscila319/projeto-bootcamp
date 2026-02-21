@@ -283,6 +283,12 @@ body {
 	background: var(--primary-hover);
 }
 
+.btn-logout {
+	background: var(--danger);
+	border: 1px solid var(--border);
+	color: var(--text);
+}
+
 .btn:disabled {
 	opacity: 0.6;
 	cursor: not-allowed;

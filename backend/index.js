@@ -10,7 +10,6 @@ import { autenticar } from './middlewares/auth.js';
 
 const app = express();
 app.use(express.json()); // Middleware para parsear JSON
-app.use(cookieParser()); // Middleware para parsear cookies
 // fix: permitir requisições do frontend
 app.use(cors({
     origin: [
@@ -21,6 +20,8 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
 }));
+app.use(cookieParser()); // Middleware para parsear cookies
+
 
 // Rotas
 app.use('/pessoas', autenticar, pessoasRoutes); // Rota para pessoas
