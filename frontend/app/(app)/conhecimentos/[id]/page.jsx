@@ -1,6 +1,6 @@
 "use client";
 
-import CadastroConhecimentoForm from "../../../components/conhecimento/CadastroConhecimentoForm";
+import CadastroConhecimentoForm from "../../../../components/conhecimento/CadastroConhecimentoForm";
 import { useParams } from "next/navigation";
 
 export default function EditarConhecimentoPage() {

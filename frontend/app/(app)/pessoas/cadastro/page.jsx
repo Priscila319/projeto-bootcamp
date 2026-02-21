@@ -1,8 +1,8 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { FormCard } from "../../../components/cadastro/FormCard";
-import { formatarTelefone } from "../../../utils/formatters";
-import { postJSON } from "../../../services/api";
+import { FormCard } from "../../../../components/cadastro/FormCard";
+import { formatarTelefone } from "../../../../utils/formatters";
+import { postJSON } from "../../../../services/api";
 import { useState } from "react";
 export default function CadastroPessoaPage() {
     const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm();

@@ -2,10 +2,10 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { getJSON, deleteJSON } from "../../services/api";
-import { LiaChalkboardTeacherSolid } from "react-icons/lia";
+import { getJSON, deleteJSON } from "../../../services/api";
+import { LiaUserSolid, LiaEnvelopeSolid, LiaPhoneSolid } from "react-icons/lia";
 
-export default function PageConhecimentos() {
+export default function PagePessoas() {
     const [itens, setItens] = useState([]);
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState(null);
@@ -15,10 +15,10 @@ export default function PageConhecimentos() {
         try {
             setLoading(true);
             setErro(null);
-            const data = await getJSON("conhecimentos");
+            const data = await getJSON("pessoas");
             setItens(data);
         } catch (e) {
-            setErro(e.message || "Erro ao carregar conhecimentos");
+            setErro(e.message || "Erro ao carregar pessoas");
         } finally {
             setLoading(false);
         }
@@ -32,20 +32,27 @@ export default function PageConhecimentos() {
         const s = q.trim().toLowerCase();
         if (!s) return itens;
 
-        return itens.filter((k) => {
-            const titulo = (k.con_titulo || "").toLowerCase();
-            const descricao = (k.con_descricao || "").toLowerCase();
-            const autor = (k.pessoas?.pes_nome || "").toLowerCase();
-            return titulo.includes(s) || descricao.includes(s) || autor.includes(s);
+        return itens.filter((p) => {
+            const nome = (p.pes_nome || "").toLowerCase();
+            const email = (p.pes_email || "").toLowerCase();
+            const login = (p.pes_login || "").toLowerCase();
+            const telefone = (p.pes_telefone || "").toLowerCase();
+
+            return (
+                nome.includes(s) ||
+                email.includes(s) ||
+                login.includes(s) ||
+                telefone.includes(s)
+            );
         });
     }, [itens, q]);
 
     async function onDelete(id) {
-        const ok = confirm("Tem certeza que deseja apagar este conhecimento?");
+        const ok = confirm("Tem certeza que deseja apagar esta pessoa?");
         if (!ok) return;
 
         try {
-            await deleteJSON(`conhecimentos/${id}`);
+            await deleteJSON(`pessoas/${id}`);
             await carregar();
         } catch (e) {
             alert(e.message || "Erro ao apagar");
@@ -58,11 +65,13 @@ export default function PageConhecimentos() {
 
                 <div className="list-header">
                     <div>
-                        <h1 className="form-title">Conhecimentos</h1>
-                        <p className="form-subtitle">Gerencie cadastros: pesquise, edite e inative/apague.</p>
+                        <h1 className="form-title">Pessoas</h1>
+                        <p className="form-subtitle">
+                            Gerencie cadastros de pessoas.
+                        </p>
                     </div>
 
-                    <Link href="/conhecimentos/cadastro" className="btn btn-primary">
+                    <Link href="/pessoas/cadastro" className="btn btn-primary">
                         Novo
                     </Link>
                 </div>
@@ -72,7 +81,7 @@ export default function PageConhecimentos() {
                         <label className="label">Pesquisar</label>
                         <input
                             className="input"
-                            placeholder="Buscar por título, descrição ou autor..."
+                            placeholder="Buscar por nome, email, login ou telefone..."
                             value={q}
                             onChange={(e) => setQ(e.target.value)}
                         />
@@ -85,49 +94,60 @@ export default function PageConhecimentos() {
                     {loading ? (
                         <div className="form-subtitle">Carregando...</div>
                     ) : filtrados.length === 0 ? (
-                        <div className="form-subtitle">Nenhum conhecimento encontrado.</div>
+                        <div className="form-subtitle">
+                            Nenhuma pessoa encontrada.
+                        </div>
                     ) : (
                         <table className="table">
                             <thead>
                                 <tr>
-                                    <th>Título</th>
-                                    <th>Status</th>
+                                    <th>Pessoa</th>
                                     <th style={{ width: 220 }}>Ações</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                {filtrados.map((k) => (
-                                    <tr key={k.con_id}>
+                                {filtrados.map((p) => (
+                                    <tr key={p.pes_id}>
                                         <td>
-                                            <div className="row-title">{k.con_titulo}</div>
-                                            {k.pessoas?.pes_nome ? (
-                                                <div className="row-subtitle">
-                                                    <LiaChalkboardTeacherSolid className="icon" />
-                                                    {k.pessoas.pes_nome}
-                                                </div>
-                                            ) : null}
-                                            {k.con_descricao ? (
-                                                <div className="row-subtitle">{k.con_descricao}</div>
-                                            ) : null}
-                                        </td>
+                                            <div className="row-title">
+                                                {p.pes_nome}
+                                            </div>
 
-                                        <td>
-                                            <span className={`badge ${k.con_ativo ? "badge-ok" : "badge-off"}`}>
-                                                {k.con_ativo ? "Ativo" : "Inativo"}
-                                            </span>
+                                            {p.pes_email && (
+                                                <div className="row-subtitle">
+                                                    <LiaEnvelopeSolid className="icon" />
+                                                    {p.pes_email}
+                                                </div>
+                                            )}
+
+                                            {p.pes_telefone && (
+                                                <div className="row-subtitle">
+                                                    <LiaPhoneSolid className="icon" />
+                                                    {p.pes_telefone}
+                                                </div>
+                                            )}
+
+                                            {p.pes_login && (
+                                                <div className="row-subtitle">
+                                                    Login: {p.pes_login}
+                                                </div>
+                                            )}
                                         </td>
 
                                         <td>
                                             <div className="row-actions">
-                                                <Link className="btn btn-ghost" href={`/conhecimentos/${k.con_id}`}>
+                                                <Link
+                                                    className="btn btn-ghost"
+                                                    href={`/pessoas/${p.pes_id}`}
+                                                >
                                                     Editar
                                                 </Link>
 
                                                 <button
                                                     type="button"
                                                     className="btn btn-danger"
-                                                    onClick={() => onDelete(k.con_id)}
+                                                    onClick={() => onDelete(p.pes_id)}
                                                 >
                                                     Apagar
                                                 </button>
