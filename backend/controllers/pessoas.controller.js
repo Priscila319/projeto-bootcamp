@@ -54,7 +54,7 @@ export async function criar(req, res) {
   try {
     const { nome, email, telefone, descricao, login, senha } = req.body;
 
-    if (!nome || !email || !telefone || !descricao || !login || !senha) {
+    if (!nome || !email || !telefone || !login || !senha) {
       return res.status(400).json({
         error: "Todos os campos são obrigatórios",
       });
@@ -67,7 +67,7 @@ export async function criar(req, res) {
         pes_nome: nome,
         pes_email: email,
         pes_telefone: telefone,
-        pes_descricao: descricao,
+        pes_descricao: descricao ?? "",
         pes_login: login,
         pes_senha: senhaHash,
       },
@@ -89,7 +89,7 @@ export async function atualizar(req, res) {
 
     const { nome, email, telefone, descricao, login, senha } = req.body;
 
-    if (!nome || !email || !telefone || !descricao || !login) {
+    if (!nome || !email || !telefone || !login) {
       return res.status(400).json({
         error: "Campos obrigatórios: nome, email, telefone, descricao, login",
       });
@@ -106,7 +106,7 @@ export async function atualizar(req, res) {
       pes_nome: nome,
       pes_email: email,
       pes_telefone: telefone,
-      pes_descricao: descricao,
+      pes_descricao: descricao ?? "",
       pes_login: login,
     };
 
