@@ -5,6 +5,7 @@ export async function postJSON(endpoint, data) {
     const resposta = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(data),
     });
 
@@ -26,7 +27,9 @@ export async function postJSON(endpoint, data) {
 
 export async function getJSON(endpoint) {
     const url = `${API_BASE_URL}/${endpoint}`;
-    const resp = await fetch(url);
+    const resp = await fetch(url, {
+        credentials: "include",
+    });
 
     let body = null;
     try { body = await resp.json(); } catch { }
@@ -42,6 +45,7 @@ export async function putJSON(endpoint, data) {
     const resp = await fetch(url, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(data),
     });
 
@@ -56,7 +60,7 @@ export async function putJSON(endpoint, data) {
 
 export async function deleteJSON(endpoint) {
     const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}/${endpoint}`;
-    const resp = await fetch(url, { method: "DELETE" });
+    const resp = await fetch(url, { method: "DELETE", credentials: "include" });
 
     let body = null;
     try { body = await resp.json(); } catch { }
