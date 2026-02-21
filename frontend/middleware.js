@@ -1,16 +1,14 @@
 import { NextResponse } from "next/server";
 
 export function middleware(req) {
-  const token = req.cookies.get("auth_token");
+  const token = req.cookies.get("autenticacaoToken");
 
-  const isLoginPage = req.nextUrl.pathname.startsWith("/login");
-
-  if (!token && !isLoginPage) {
+  if (!token) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
-  if (token && isLoginPage) {
-    return NextResponse.redirect(new URL("/dashboard", req.url));
-  }
-
   return NextResponse.next();
+}
+
+export const config = {
+  matcher: ["/", "/pessoas/:path*", "/conhecimentos/:path*", "/dashboard/:path*"],
 }
