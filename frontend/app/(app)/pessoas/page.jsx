@@ -70,10 +70,6 @@ export default function PagePessoas() {
                             Gerencie cadastros de pessoas.
                         </p>
                     </div>
-
-                    <Link href="/pessoas/cadastro" className="btn btn-primary">
-                        Novo
-                    </Link>
                 </div>
 
                 <div className="card" style={{ marginBottom: "14px" }}>

@@ -61,10 +61,6 @@ export default function PageConhecimentos() {
                         <h1 className="form-title">Conhecimentos</h1>
                         <p className="form-subtitle">Gerencie cadastros: pesquise, edite e inative/apague.</p>
                     </div>
-
-                    <Link href="/conhecimentos/cadastro" className="btn btn-primary">
-                        Novo
-                    </Link>
                 </div>
 
                 <div className="card" style={{ marginBottom: "14px" }}>
