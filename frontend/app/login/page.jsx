@@ -41,6 +41,12 @@ export default function LoginPage() {
             Entrar
           </button>
         </div>
+
+        <div className="field">
+          <p className="subtitle">
+            Não tem uma conta? <a href="/login/cadastro" className="link">Cadastre-se</a>
+          </p>
+        </div>
       </form>
     </FormCard>
   );

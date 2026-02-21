@@ -754,3 +754,32 @@ body {
 .btn-icon:hover {
 	background: rgba(255, 255, 255, 0.07);
 }
+
+/* =========================
+	 Estilizacao do links da pagina de login
+	 =========================
+*/
+.subtitle {
+	text-align: center;
+	color: var(--muted);
+	font-size: 14px;
+	margin-top: var(--space-2);
+}
+
+.link {
+	color: var(--primary);
+	text-decoration: none;
+	font-weight: 600;
+	transition: color 120ms ease, text-decoration 120ms ease;
+}
+
+.link:hover {
+	color: var(--primary-hover);
+	text-decoration: underline;
+}
+
+.link:focus-visible {
+	outline: none;
+	box-shadow: var(--focus);
+	border-radius: 4px;
+}
