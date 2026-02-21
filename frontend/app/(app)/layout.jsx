@@ -1,4 +1,3 @@
-import "../globals.css";
 import AppShell from "../../components/layout/AppShell";
 
 export const metadata = {
@@ -6,14 +5,10 @@ export const metadata = {
   description: "Cadastro de pessoas e conhecimentos",
 };
 
-export default function RootLayout({ children }) {
+export default function AppLayout({ children }) {
   return (
-    <html lang="pt-BR">
-      <body>
-        <AppShell title={metadata.title} subtitle={metadata.description}>
-          {children}
-        </AppShell>
-      </body>
-    </html>
+    <AppShell title={metadata.title} subtitle={metadata.description}>
+      {children}
+    </AppShell>
   );
 }
