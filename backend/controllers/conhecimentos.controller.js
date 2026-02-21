@@ -50,11 +50,7 @@ export async function criar(req, res) {
       ativo,
     } = req.body;
 
-    if (ativo !== undefined) {
-      ativo = Boolean(ativo);
-    } else {
-      ativo = true;
-    }
+    const ativoBool = (ativo === undefined) ? true : Boolean(ativo);
 
     const catId = validarIdInteiro(categoriaId);
     const nivId = validarIdInteiro(nivelId);
@@ -70,7 +66,7 @@ export async function criar(req, res) {
       data: {
         con_titulo: titulo,
         con_descricao: descricao,
-        con_ativo: Boolean(ativo),
+        con_ativo: ativoBool,
 
         categorias: { connect: { cat_id: catId } },
         niveis: { connect: { niv_id: nivId } },

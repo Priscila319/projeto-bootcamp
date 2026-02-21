@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { getJSON, deleteJSON } from "../../services/api";
+import { LiaChalkboardTeacherSolid } from "react-icons/lia";
 
 export default function PageConhecimentos() {
     const [itens, setItens] = useState([]);
@@ -101,7 +102,10 @@ export default function PageConhecimentos() {
                                         <td>
                                             <div className="row-title">{k.con_titulo}</div>
                                             {k.pessoas?.pes_nome ? (
-                                                <div className="row-subtitle">{k.pessoas.pes_nome}</div>
+                                                <div className="row-subtitle">
+                                                    <LiaChalkboardTeacherSolid className="icon" />
+                                                    {k.pessoas.pes_nome}
+                                                </div>
                                             ) : null}
                                             {k.con_descricao ? (
                                                 <div className="row-subtitle">{k.con_descricao}</div>
