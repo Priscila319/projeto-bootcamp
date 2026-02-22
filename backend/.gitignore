@@ -1,0 +1,25 @@
+# Dependências (Nunca envie esta pasta!)
+node_modules/
+
+# Variáveis de ambiente (Contém senhas e chaves de API)
+.env
+.env.local
+
+# Logs e arquivos de debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+logs/
+*.log
+
+# Pastas de Build/Saída
+dist/
+build/
+
+# Configurações do VS Code e Sistema
+.vscode/
+.DS_Store
+Thumbs.db
+/generated/prisma
+
+/lib/generated/prisma

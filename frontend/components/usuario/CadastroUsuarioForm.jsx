@@ -1,0 +1,141 @@
+"use client";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { FormCard } from "../cadastro/FormCard";
+import { postJSON } from "../../services/api";
+import { formatarTelefone } from "../../utils/formatters";
+
+
+export default function CadastroUsuarioForm() {
+
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting } } =
+    useForm();
+
+  const [erroApi, setErroApi] = useState(null);
+  const [sucesso, setSucesso] = useState(false);
+
+  const telefoneReg = register("telefone", {
+    required: "Telefone obrigatório",
+    validate: (v) => {
+      const digits = (v || "").replace(/\D/g, "");
+      if (digits.length === 10 || digits.length === 11) return true;
+      return "Telefone incompleto";
+    },
+  });
+
+  const onSubmit = async (data) => {
+    try {
+      setErroApi(null);
+
+      const payload = { ...data };
+
+      await postJSON("pessoas", payload);
+      reset({ ativo: true });
+      setSucesso(true);
+      setTimeout(() => setSucesso(false), 2000);
+    } catch (e) {
+      setErroApi(e.message || "Erro ao salvar");
+    }
+  };
+
+  return (
+    <FormCard
+      title={"Cadastro de Usuário"}
+      backHref="/login"
+    >
+      <form className="form" onSubmit={handleSubmit(onSubmit)}>
+        <div className="field">
+          <label className="label">Nome Completo</label>
+          <input
+            className={`input ${errors.nome ? "input-error" : ""}`}
+            placeholder="Seu nome completo"
+            {...register("nome", { required: "Nome é obrigatório", maxLength: { value: 100, message: "Máx. 100 caracteres" } })}
+          />
+          {errors.nome && (
+            <span className="error-text">{errors.nome.message}</span>
+          )}
+        </div>
+
+        <div className="field">
+          <label className="label">E-mail</label>
+          <input
+            className={`input ${errors.email ? "input-error" : ""}`}
+            placeholder="Ex: seuemail@exemplo.com"
+            {...register("email", { required: "E-mail é obrigatório", pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "E-mail inválido" } })}
+          />
+          {errors.email && (
+            <span className="error-text">{errors.email.message}</span>
+          )}
+        </div>
+
+        <div className="field">
+          <label className="label">Telefone</label>
+
+          <input
+            className={`input ${errors.telefone ? "input-error" : ""}`}
+            type="tel"
+            inputMode="numeric"
+            placeholder="Ex: (99) 99999-9999"
+            {...telefoneReg}
+            onChange={(e) => {
+              const masked = formatarTelefone(e.target.value);
+              e.target.value = masked;
+              telefoneReg.onChange(e);
+            }}
+          />
+
+          {errors.telefone && (
+            <span className="error-text">{errors.telefone.message}</span>
+          )}
+        </div>
+
+        <div className="field">
+          <label className="label">Login</label>
+          <input
+            className={`input ${errors.login ? "input-error" : ""}`}
+            placeholder="Crie um login único"
+            {...register("login", { required: "Login é obrigatório", maxLength: { value: 50, message: "Máx. 50 caracteres" } })}
+          />
+          {errors.login && (
+            <span className="error-text">{errors.login.message}</span>
+          )}
+        </div>
+
+        <div className="field">
+          <label className="label">Senha</label>
+          <input
+            className={`input ${errors.senha ? "input-error" : ""}`}
+            type="password"
+            placeholder="Crie uma senha"
+            {...register("senha", { required: "Senha é obrigatória", minLength: { value: 6, message: "Mín. 6 caracteres" } })}
+          />
+          {errors.senha && (
+            <span className="error-text">{errors.senha.message}</span>
+          )}
+        </div>
+
+        <div className="field">
+          <label className="label">Descrição</label>
+          <textarea
+            className={`textarea ${errors.descricao ? "textarea-error" : ""}`}
+            placeholder="Descreva a pessoa"
+            {...register("descricao", { maxLength: { value: 255, message: "Máx. 255 caracteres" } })}
+          />
+          {errors.descricao && (
+            <span className="error-text">{errors.descricao.message}</span>
+          )}
+        </div>
+
+        <button className="btn btn-primary" type="submit" disabled={isSubmitting}>
+          Cadastrar
+        </button>
+        {sucesso && (
+          <div className="alert alert-success">
+            Cadastro realizado com sucesso!
+          </div>
+        )}
+        {erroApi && <div className="alert alert-error">{erroApi}</div>}
+      </form>
+    </FormCard >
+  );
+}
